@@ -1,36 +1,90 @@
 This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
 
-## Getting Started
+# Document Generator With Templates
 
-First, run the development server:
+![Next.js](https://img.shields.io/badge/Next.js-000000?style=for-the-badge&logo=nextdotjs&logoColor=white)
+![React](https://img.shields.io/badge/React-20232a?style=for-the-badge&logo=react&logoColor=61DAFB)
+![TailwindCSS](https://img.shields.io/badge/Tailwind_CSS-38B2AC?style=for-the-badge&logo=tailwind-css&logoColor=white)
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+This project is a web application built with **Next.js**, **React**, and **Tailwind CSS** that allows users to generate documents from customizable templates.
+
+The application automatically detects input fields inside a document by using **double curly braces `{{ }}`** as placeholders. It then generates a dynamic form so the user can fill in the values and export the final document.
+
+---
+
+## ✨ Features
+
+- 📄 **Dynamic templates**: automatically detects variables inside `{{braces}}`.
+- 📝 **Auto-generated forms** based on the template content.
+- ⚡ **Client-side processing**: files are never stored on any server.
+- 🔒 **Privacy-first**: documents are processed only in the user’s browser.
+- 🎨 **Modern and responsive styles** powered by **Tailwind CSS**.
+- 🌐 Built with **Next.js** and **React**.
+
+---
+
+## 🚀 How to Use
+
+1. Upload a document containing placeholders wrapped in double curly braces `{{ }}`.  
+   Example:
+
+```markdown
+I, {{name}}, with ID number {{id}}, hereby declare the following...
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+2. The app will detect the fields (`name`, `id`) and generate a form.
+3. Fill in the form with your desired values.
+4. Download the final document with the replaced content.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+---
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## 📂 Project Structure
 
-## Learn More
+```
+.
+├── pages/ # Main application routes
+├── components/ # Reusable UI components
+├── public/ # Static assets
+├── styles/ # Global styles with Tailwind
+└── README.md # This file
+```
 
-To learn more about Next.js, take a look at the following resources:
+---
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## 🛠️ Requirements
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+- Node.js >= 18
+- npm or yarn
 
-## Deploy on Vercel
+---
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+## ▶️ Installation & Local Development
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+```bash
+# Clone the repository
+git clone https://github.com/username/repository.git
+
+# Navigate to the project directory
+cd repository
+
+# Install dependencies
+npm install
+
+# Run in development mode
+npm run dev
+```
+
+The application will be available at `http://localhost:3000`.
+
+---
+
+## 📜 License
+
+This project is licensed under the [MIT License](./LICENSE).
+
+---
+
+## 👤 Author
+
+- Name: Alexis Isidoro Bolaños Avalos
+- Contact: [LinkedIn](https://linkedin.com/in/alexisiba) / [GitHub](https://github.com/alexisiba) / contacto@alexisiba.com
