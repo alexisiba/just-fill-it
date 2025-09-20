@@ -1,14 +1,13 @@
 import {
-  MdCloudUpload,
-  MdEditDocument,
-  MdFileDownload,
-  MdFileUpload,
-} from "react-icons/md";
+  AiOutlineDownload,
+  AiOutlineUpload,
+  AiTwotoneFileText,
+} from "react-icons/ai";
+import DragAndDrop from "./_components/DragAndDrop";
+import Footer from "./_components/Footer";
 import Header from "./_components/Header";
 import InstructionsListItem from "./_components/InstructionsListItem";
-import Footer from "./_components/Footer";
 import Main from "./_components/Main";
-import DragAndDrop from "./_components/DragAndDrop";
 
 export default function Home() {
   return (
@@ -20,15 +19,15 @@ export default function Home() {
           <div className="grid grid-cols-5 gap-4 w-full max-w-250 max-h-100 h-full">
             <ol className="list-decimal col-span-2 flex flex-col items-center justify-center">
               <InstructionsListItem
-                icon={<MdFileUpload className="text-3xl ml-2" />}
+                icon={<AiOutlineUpload className="text-3xl ml-2" />}
                 label="Sube tu archivo"
               />
               <InstructionsListItem
-                icon={<MdEditDocument className="text-3xl ml-2" />}
+                icon={<AiTwotoneFileText className="text-3xl ml-2" />}
                 label="Llena el formulario"
               />
               <InstructionsListItem
-                icon={<MdFileDownload className="text-3xl ml-2" />}
+                icon={<AiOutlineDownload className="text-3xl ml-2" />}
                 label="Descarga tu documento"
               />
             </ol>

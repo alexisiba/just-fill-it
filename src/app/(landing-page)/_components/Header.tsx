@@ -3,7 +3,7 @@ import { AiFillGithub, AiFillLinkedin } from "react-icons/ai";
 
 export default function Header() {
   return (
-    <header className="bg-white text-black flex flex-row justify-center">
+    <header className="bg-white text-black flex flex-row justify-center shadow-xl">
       <div className="container p-8 flex flex-row items-center justify-between">
         <span className="font-bold text-3xl">JUST FILL IT!</span>
         <div className="flex flex-row gap-2">

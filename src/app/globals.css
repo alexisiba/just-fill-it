@@ -1,8 +1,33 @@
 @import "tailwindcss";
 
+html {
+  box-sizing: border-box;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: inherit;
+}
+
 :root {
   --background: #ffffff;
   --foreground: #171717;
+  --error: var(--color-red-600);
+  --error-hover: var(--color-red-700);
+  --error-active: var(--color-red-800);
+  --info: var(--color-blue-600);
+  --info-hover: var(--color-blue-700);
+  --info-active: var(--color-blue-800);
+  --primary: var(--color-gray-900);
+  --primary-hover: var(--color-gray-950);
+  --primary-active: var(--color-black);
+  --success: var(--color-emerald-600);
+  --success-hover: var(--color-emerald-700);
+  --success-active: var(--color-emerald-800);
+  --warning: var(--color-yellow-600);
+  --warning-hover: var(--color-yellow-700);
+  --warning-active: var(--color-yellow-800);
 }
 
 @theme inline {
