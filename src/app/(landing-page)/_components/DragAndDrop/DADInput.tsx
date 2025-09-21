@@ -4,11 +4,12 @@ import {
   AiOutlineCloudUpload,
   AiOutlineWarning,
 } from "react-icons/ai";
-import { MAX_FILE_SIZE_MB, SUPPORTED_FILE_TYPES } from "./constants";
+import { MAX_FILE_SIZE_MB } from "./constants";
 import { DragAndDropErrors } from "./types";
 import "../../../globals.css";
 import Button from "@/app/_components/Button";
 import { ButtonColor } from "@/app/types";
+import { getSupportedFileExtensionsWithDots } from "@/app/utils/helpers";
 
 interface DADInputProps {
   errors?: DragAndDropErrors;
@@ -76,12 +77,12 @@ export default function DADInput({
         ) : (
           <span>
             Tipoos de archivo soportados:
-            <b> {SUPPORTED_FILE_TYPES.join(", ")}</b>
+            <b> {getSupportedFileExtensionsWithDots().join(", ")}</b>
           </span>
         )}
       </div>
       <input
-        accept={SUPPORTED_FILE_TYPES.join(",")}
+        accept={getSupportedFileExtensionsWithDots().join(",")}
         ref={ref}
         id="file-upload"
         onChange={handleInputChange}

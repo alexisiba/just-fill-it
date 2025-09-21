@@ -1,14 +1,26 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono, Shadows_Into_Light } from "next/font/google";
+import {
+  Archivo_Black,
+  Rubik,
+  Rubik_Mono_One,
+  Shadows_Into_Light,
+} from "next/font/google";
 import "./globals.css";
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
+const archivoBlack = Archivo_Black({
+  weight: "400",
+  variable: "--font-archivo-black",
   subsets: ["latin"],
 });
 
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
+const rubikSans = Rubik({
+  variable: "--font-rubik-sans",
+  subsets: ["latin"],
+});
+
+const rubikMono = Rubik_Mono_One({
+  weight: "400",
+  variable: "--font-rubik-mono",
   subsets: ["latin"],
 });
 
@@ -31,7 +43,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${geistSans.variable} ${geistMono.variable} ${shadowIntoLightSans.variable} antialiased`}
+        className={`${rubikSans.variable} ${rubikMono.variable} ${shadowIntoLightSans.variable} ${archivoBlack.variable} antialiased`}
       >
         {children}
       </body>
