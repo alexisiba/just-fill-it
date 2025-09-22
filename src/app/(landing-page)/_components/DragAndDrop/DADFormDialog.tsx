@@ -4,9 +4,15 @@ import Input from "@/app/_components/Input";
 import { ButtonColor } from "@/app/types";
 import { useFormik } from "formik";
 import { ObjectSchema } from "yup";
-import { getIdentifierLabel } from "./helpers";
+import {
+  createNewDocxFile,
+  createNewTxtFile,
+  getIdentifierLabel,
+} from "./helpers";
 import { FileData } from "@/app/_store/types/fileTypes";
 import { useFileActions } from "@/app/_store/selectors/fileSelector";
+import { SUPPORTED_FILE_EXTENSIONS } from "./constants";
+import { useEffect, useRef } from "react";
 
 interface DADFormDialogProp {
   fileName: string;
@@ -28,18 +34,22 @@ export default function DADFormDialog({
   onSubmit,
 }: DADFormDialogProp) {
   const { setFileDataInitialValues } = useFileActions();
-  const handleFormSubmit = (values: Record<string, string>) => {
+  const inputRef = useRef<HTMLInputElement | null>(null);
+  const handleFormSubmit = async (values: Record<string, string>) => {
+    const { fileExtension } = fileData;
     setFileDataInitialValues(values);
-    if (fileData.fileExtensions === "txt") {
-      let newTextContent = fileData.textContent;
-      for (const key in fileData.templateVariables) {
-        newTextContent = newTextContent.replaceAll(
-          fileData.templateVariables[key],
-          values[key]
-        );
-      }
-      const blob = new Blob([newTextContent], { type: "text/plain" });
-      onSubmit(blob);
+    if (fileExtension === SUPPORTED_FILE_EXTENSIONS.TXT) {
+      const newFile = createNewTxtFile(fileData, values);
+      onSubmit(newFile);
+      return;
+    }
+    if (
+      [SUPPORTED_FILE_EXTENSIONS.DOC, SUPPORTED_FILE_EXTENSIONS.DOCX].includes(
+        fileExtension
+      )
+    ) {
+      const newFile = await createNewDocxFile(fileData, values);
+      onSubmit(newFile);
       return;
     }
     onSubmit(new Blob());
@@ -51,6 +61,13 @@ export default function DADFormDialog({
     validationSchema,
     onSubmit: handleFormSubmit,
   });
+
+  useEffect(() => {
+    if (isOpen && inputRef.current) {
+      inputRef?.current?.focus();
+    }
+  }, [isOpen]);
+
   return (
     <Dialog
       title={fileName}
@@ -72,11 +89,12 @@ export default function DADFormDialog({
         </div>
       }
     >
-      {Object.keys(fileData?.templateVariables)?.map((identifier) => {
+      {Object.keys(fileData?.initialValues)?.map((identifier, idx) => {
         const inputFormLabel = getIdentifierLabel(identifier);
         return (
           <div key={identifier} className="mb-4">
             <Input
+              ref={idx === 0 ? inputRef : undefined}
               error={
                 formik.touched[identifier]
                   ? formik.errors[identifier]

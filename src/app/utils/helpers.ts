@@ -13,3 +13,35 @@ export const saveAs = (blob: Blob, fileName: string) => {
 
 export const getSupportedFileExtensionsWithDots = () =>
   Object.values(SUPPORTED_FILE_EXTENSIONS).map((ext) => `.${ext}`);
+
+export const readFileAsBufferArryAsync = (file: Blob): Promise<string> => {
+  return new Promise((resolve, reject) => {
+    const reader = new FileReader();
+
+    reader.onload = function (event) {
+      resolve(event?.target?.result as string);
+    };
+
+    reader.onerror = function (error) {
+      reject(error);
+    };
+
+    reader.readAsArrayBuffer(file);
+  });
+};
+
+export const readFileAsTextAsync = (file: Blob): Promise<string> => {
+  return new Promise((resolve, reject) => {
+    const reader = new FileReader();
+
+    reader.onload = function (event) {
+      resolve(event?.target?.result as string);
+    };
+
+    reader.onerror = function (error) {
+      reject(error);
+    };
+
+    reader.readAsText(file);
+  });
+};

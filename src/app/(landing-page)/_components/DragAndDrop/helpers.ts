@@ -12,10 +12,19 @@ import {
   SUPPORTED_FILE_EXTENSIONS,
 } from "./constants";
 import { DragAndDropErrors } from "./types";
-import { getSupportedFileExtensionsWithDots } from "@/app/utils/helpers";
+import {
+  getSupportedFileExtensionsWithDots,
+  readFileAsBufferArryAsync,
+} from "@/app/utils/helpers";
+
+const getFormattedKey = (unformattedKey: string) =>
+  unformattedKey.toLocaleLowerCase().replace(REGEX_SEPARATORS, "_");
 
 export const checkIfExtensioIsSupported = (fileExtension: string) =>
   Object.values(SUPPORTED_FILE_EXTENSIONS).includes(fileExtension);
+
+export const getFileSizeInMB = (file: File) =>
+  (file.size / (1024 * 1024)).toFixed(2);
 
 export const checkForFileErros = (file: File): DragAndDropErrors => {
   const errors: DragAndDropErrors = {};
@@ -32,18 +41,15 @@ export const checkForFileErros = (file: File): DragAndDropErrors => {
   return errors;
 };
 
-export const getFileSizeInMB = (file: File) =>
-  (file.size / (1024 * 1024)).toFixed(2);
-
 const getTemplateVariables = (variables: string[][]) => {
   return variables?.reduce((acc, variable) => {
-    return { ...acc, [variable[1]]: variable[0] };
+    return { ...acc, [getFormattedKey(variable[1])]: variable[0] };
   }, {});
 };
 
 export const getInitialValuesFromVariables = (variables: string[][]) => {
   return variables?.reduce((acc, variable) => {
-    return { ...acc, [variable[1]]: "" };
+    return { ...acc, [getFormattedKey(variable[1])]: "" };
   }, {});
 };
 
@@ -59,7 +65,8 @@ const handleTxtFileData = async (file: File): Promise<FileData> => {
   ];
 
   return {
-    fileExtensions: file?.name?.split(".")?.pop()?.toLowerCase() || "",
+    file,
+    fileExtension: file?.name?.split(".")?.pop()?.toLowerCase() || "",
     fileName: file.name,
     initialValues: getInitialValuesFromVariables(variables),
     templateVariables: getTemplateVariables(variables),
@@ -67,31 +74,39 @@ const handleTxtFileData = async (file: File): Promise<FileData> => {
   };
 };
 
-const handleDocxFileData = async (file: File) => {
-  const reader = new FileReader();
-  reader.onload = (event) => {
-    try {
-      if (!event.target) return;
-      const content = event.target.result;
-      const zip = new PizZip(content as LoadData);
-      const iModule = new InspectModule();
-      new Docxtemplater(zip, {
-        delimiters: {
-          start: "{{",
-          end: "}}",
-        },
-        paragraphLoop: true,
-        linebreaks: true,
-        modules: [iModule],
-      });
+const handleDocxFileData = async (file: File): Promise<FileData> => {
+  const initialValues: Record<string, string> = {};
+  const templateVariables: Record<string, string> = {};
 
-      const tags = iModule.getAllTags();
-      console.log("🚀 ~ handleDocxFileData ~ foundTags:", tags);
-    } catch (error) {
-      console.error("Error al leer DOCX:", error);
-    }
+  const fileContent = await readFileAsBufferArryAsync(file);
+  const zip = new PizZip(fileContent as LoadData);
+  const iModule = new InspectModule();
+
+  new Docxtemplater(zip, {
+    delimiters: {
+      start: "{{",
+      end: "}}",
+    },
+    paragraphLoop: true,
+    linebreaks: true,
+    modules: [iModule],
+  });
+
+  const tags = iModule.getAllTags();
+
+  Object.keys(tags).forEach((tag) => {
+    initialValues[getFormattedKey(tag)] = "";
+    templateVariables[getFormattedKey(tag)] = tag;
+  });
+
+  return {
+    file,
+    fileExtension: file?.name?.split(".")?.pop()?.toLowerCase() || "",
+    fileName: file.name,
+    initialValues,
+    templateVariables,
+    textContent: "",
   };
-  reader.readAsArrayBuffer(file);
 };
 
 export const getFileData = async (file: File): Promise<FileData> => {
@@ -103,18 +118,12 @@ export const getFileData = async (file: File): Promise<FileData> => {
     fileExt === SUPPORTED_FILE_EXTENSIONS.DOC ||
     fileExt === SUPPORTED_FILE_EXTENSIONS.DOCX
   ) {
-    handleDocxFileData(file);
-    return {
-      fileExtensions: "",
-      fileName: "",
-      initialValues: {},
-      templateVariables: {},
-      textContent: "",
-    };
+    return handleDocxFileData(file);
   }
 
   return {
-    fileExtensions: "",
+    file,
+    fileExtension: "",
     fileName: "",
     initialValues: {},
     templateVariables: {},
@@ -136,4 +145,61 @@ export const buildFormikValidationSchema = (fields: string[]) => {
   );
 
   return object(schema);
+};
+
+export const createNewTxtFile = (
+  fileData: FileData,
+  newValues: Record<string, string>
+) => {
+  let newTextContent = fileData.textContent;
+  for (const key in fileData.templateVariables) {
+    newTextContent = newTextContent.replaceAll(
+      fileData.templateVariables[key],
+      newValues[key]
+    );
+  }
+
+  return new Blob([newTextContent], { type: "text/plain" });
+};
+
+export const createNewDocxFile = async (
+  fileData: FileData,
+  newValues: Record<string, string>
+) => {
+  const fileContent = await readFileAsBufferArryAsync(fileData.file);
+  const zip = new PizZip(fileContent as LoadData);
+  const doc = new Docxtemplater(zip, {
+    delimiters: {
+      start: "{{",
+      end: "}}",
+    },
+    paragraphLoop: true,
+    linebreaks: true,
+  });
+
+  const formattedData: Record<string, string> = Object.keys(
+    fileData.initialValues
+  ).reduce(
+    (acc, key) => ({
+      ...acc,
+      [fileData.templateVariables[key]]: newValues[key],
+    }),
+    {}
+  );
+
+  try {
+    doc.render(formattedData);
+  } catch (error) {
+    console.error("Error al renderizar el documento:", error);
+    throw error;
+  }
+
+  // Generar el archivo como blob
+  const blob = doc.getZip().generate({
+    type: "blob",
+    mimeType:
+      "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+  });
+
+  return blob;
 };

@@ -1,5 +1,6 @@
 export interface FileData {
-  fileExtensions: string;
+  file: File;
+  fileExtension: string;
   fileName: string;
   initialValues: Record<string, string>;
   templateVariables: Record<string, string>;

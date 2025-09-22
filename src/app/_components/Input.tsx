@@ -1,4 +1,4 @@
-import { ChangeEvent, FocusEvent } from "react";
+import { ChangeEvent, FocusEvent, RefObject } from "react";
 
 interface InputProps {
   onChange: (event: ChangeEvent<HTMLInputElement>) => void;
@@ -7,6 +7,7 @@ interface InputProps {
   label?: string;
   name?: string;
   placeholder?: string;
+  ref?: RefObject<HTMLInputElement | null>;
   required?: boolean;
   value?: string | number | readonly string[];
   onBlur?: (event: FocusEvent<HTMLInputElement>) => void;
@@ -18,6 +19,7 @@ export default function Input({
   label,
   name,
   placeholder,
+  ref,
   required,
   value,
   onChange,
@@ -27,6 +29,7 @@ export default function Input({
     <div>
       {label ? <label htmlFor={id}>{label}</label> : null}
       <input
+        ref={ref}
         placeholder={placeholder}
         required={required}
         className="rounded-md border border-gray-300 px-3 py-2 w-full focus:ring-2 focus:ring-blue-500 mt-2"
