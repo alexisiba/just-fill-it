@@ -54,6 +54,8 @@ I, {{name}}, with ID number {{id}}, hereby declare the following...
 │         ├── _components/      # Reusable global UI components
 │         ├── _store/           # Application state managment
 │         ├── (landing_page)/   # Main application route
+│         ├── api/
+│         │    └── convert/     # Api to convert docx to pdf
 │         ├── utils/            # Shared functions and utilities
 │         └── ...               # Other source files
 └── README.md                   # This file

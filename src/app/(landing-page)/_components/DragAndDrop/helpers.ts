@@ -114,10 +114,7 @@ export const getFileData = async (file: File): Promise<FileData> => {
   if (fileExt === SUPPORTED_FILE_EXTENSIONS.TXT) {
     return handleTxtFileData(file);
   }
-  if (
-    fileExt === SUPPORTED_FILE_EXTENSIONS.DOC ||
-    fileExt === SUPPORTED_FILE_EXTENSIONS.DOCX
-  ) {
+  if (fileExt === SUPPORTED_FILE_EXTENSIONS.DOCX) {
     return handleDocxFileData(file);
   }
 

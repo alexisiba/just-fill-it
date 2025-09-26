@@ -1,8 +1,5 @@
 export const SUPPORTED_FILE_EXTENSIONS = {
-  DOC: "doc",
   DOCX: "docx",
-  ODT: "odt",
-  RTF: "rtf",
   TXT: "txt",
 };
 export const MAX_FILE_SIZE_MB = 5;

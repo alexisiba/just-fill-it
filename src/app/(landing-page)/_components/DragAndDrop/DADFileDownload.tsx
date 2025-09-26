@@ -49,7 +49,7 @@ export default function DADFileDownload() {
       const blob = await res.blob();
       saveAs(blob, fileData?.fileName as string);
     } else {
-      alert("Esta opcion no esta habilitada");
+      alert("Esta opcion no esta habilitada para docx por ahora");
     }
   };
 

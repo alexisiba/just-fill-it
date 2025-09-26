@@ -49,11 +49,12 @@ export default function DragAndDrop() {
   };
 
   return (
-    <div
-      onClick={handleDragAndDropContainerClick}
-      onDragOver={handleDragOver}
-      onDrop={handleDrop}
-      className={`col-span-3 rounded-md p-2  transition-colors max-w-200 w-full max-h-100 h-full
+    <div className="p-4">
+      <div
+        onClick={handleDragAndDropContainerClick}
+        onDragOver={handleDragOver}
+        onDrop={handleDrop}
+        className={`col-span-3 rounded-md p-2  transition-colors max-w-200 w-full max-h-100 h-full
         ${
           !file &&
           "bg-blue-100 hover:bg-blue-200 cursor-pointer shadow-[0_0_20px_1px] shadow-blue-300"
@@ -67,25 +68,26 @@ export default function DragAndDrop() {
           "bg-green-50 border-green-300 border-2 shadow-[0_0_20px_1px] shadow-green-300"
         }
       `}
-    >
-      <div
-        className={`border border-dashed rounded-md w-full h-full flex items-center justify-center
+      >
+        <div
+          className={`border border-dashed rounded-md w-full h-full flex items-center justify-center
           ${!file && "border-black/30"}
           ${!isEmpty(errors) && "border-red-500"}
           ${file && "border-green-500"}
         `}
-      >
-        {!file ? (
-          <DADInput
-            errors={errors}
-            ref={fileButtonRef}
-            handleInputChange={handleInputChange}
-          />
-        ) : null}
-        {file && !fileToDownload ? (
-          <DADFileUploaded file={file} onDelete={() => resetAll()} />
-        ) : null}
-        {fileToDownload ? <DADFileDownload /> : null}
+        >
+          {!file ? (
+            <DADInput
+              errors={errors}
+              ref={fileButtonRef}
+              handleInputChange={handleInputChange}
+            />
+          ) : null}
+          {file && !fileToDownload ? (
+            <DADFileUploaded file={file} onDelete={() => resetAll()} />
+          ) : null}
+          {fileToDownload ? <DADFileDownload /> : null}
+        </div>
       </div>
     </div>
   );

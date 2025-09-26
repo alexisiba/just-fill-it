@@ -1,1 +1,1 @@
-export const APP_NAME = "Just Fill It!";
+export const APP_NAME = "JUST FILL IT!";
