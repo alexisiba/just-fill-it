@@ -19,11 +19,11 @@ export default function Dialog({
 }: DialogProps) {
   return (
     <div
-      className={`fixed h-dvh w-dvw bg-black/50 -top-0 -left-0 flex items-center justify-center transition transition-duration-300 transition-ease-in-out ${
+      className={`fixed h-dvh w-dvw bg-black/50 -top-0 -left-0 flex items-center justify-center transition transition-duration-300 transition-ease-in-out p-4 ${
         open ? "opacity-100 visible" : "opacity-0 invisible"
       }`}
     >
-      <div className="bg-white rounded-md min-w-150 min-h-50 relative">
+      <div className="bg-white rounded-md min-w-100 min-h-50 relative">
         <div
           className="absolute top-4 right-4 cursor-pointer text-gray-500 hover:text-gray-700"
           onClick={onClose}
