@@ -53,7 +53,7 @@ export default function DADFileUploaded({
   }, [file, handleGetFileData]);
 
   return (
-    <div className="flex flex-col items-center gap-2">
+    <div className="flex flex-col items-center max-w-100 w-full gap-2">
       <div className="flex flex-row items-center gap-2">
         <div className="flex flex-col items-center justify-center">
           <AiOutlineFileText className="text-6xl mb-2 text-blue-400" />
@@ -69,14 +69,14 @@ export default function DADFileUploaded({
         icon={<AiFillEdit className="text-2xl" />}
         label="Llenar plantilla"
         onClick={handleOpenDialog}
-        className="max-w-150 w-full"
+        className="w-full"
       />
       <Button
         color={ButtonColor.primary}
         icon={<AiOutlineSwap className="text-2xl" />}
         label="Reemplazar archivo"
         onClick={onDelete}
-        className="max-w-150 w-full"
+        className="w-full"
       />
       {!isEmpty(fileData) ? (
         <DADFormDialog

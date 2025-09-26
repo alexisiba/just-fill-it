@@ -49,12 +49,12 @@ export default function DragAndDrop() {
   };
 
   return (
-    <div className="p-4">
+    <div className="p-4 max-w-150 w-full">
       <div
         onClick={handleDragAndDropContainerClick}
         onDragOver={handleDragOver}
         onDrop={handleDrop}
-        className={`col-span-3 rounded-md p-2  transition-colors max-w-200 w-full max-h-100 h-full
+        className={`col-span-3 rounded-md p-2  transition-colors w-full max-h-100 h-full
         ${
           !file &&
           "bg-blue-100 hover:bg-blue-200 cursor-pointer shadow-[0_0_20px_1px] shadow-blue-300"
@@ -70,7 +70,7 @@ export default function DragAndDrop() {
       `}
       >
         <div
-          className={`border border-dashed rounded-md w-full h-full flex items-center justify-center
+          className={`border border-dashed rounded-md w-full h-full flex items-center justify-center p-4
           ${!file && "border-black/30"}
           ${!isEmpty(errors) && "border-red-500"}
           ${file && "border-green-500"}
