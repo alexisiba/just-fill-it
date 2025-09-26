@@ -43,11 +43,7 @@ export default function DADFormDialog({
       onSubmit(newFile);
       return;
     }
-    if (
-      [SUPPORTED_FILE_EXTENSIONS.DOC, SUPPORTED_FILE_EXTENSIONS.DOCX].includes(
-        fileExtension
-      )
-    ) {
+    if ([SUPPORTED_FILE_EXTENSIONS.DOCX].includes(fileExtension)) {
       const newFile = await createNewDocxFile(fileData, values);
       onSubmit(newFile);
       return;
