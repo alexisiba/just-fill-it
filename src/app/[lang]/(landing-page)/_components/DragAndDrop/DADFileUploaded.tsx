@@ -14,6 +14,7 @@ import {
   getFileData,
   getFileSizeInMB,
 } from "./helpers";
+import { useTranslations } from "next-intl";
 
 interface DADFileUploadedProps {
   file: File;
@@ -31,6 +32,9 @@ export default function DADFileUploaded({
     Record<string, string>
   > | null>(null);
   const [isFormDialogOpen, setIsFormDialogOpen] = useState(false);
+  const t = useTranslations("pages");
+  const buttonsT = useTranslations("buttons");
+  const schemasT = useTranslations("schemas");
 
   const handleGetFileData = useCallback(
     async (file: File) => {
@@ -38,11 +42,11 @@ export default function DADFileUploaded({
       if (!data) return;
       setFileDataInitialValues(data.initialValues || {});
       setValidationSchema(
-        buildFormikValidationSchema(Object.keys(data.initialValues))
+        buildFormikValidationSchema(Object.keys(data.initialValues), schemasT)
       );
       setFileData(data);
     },
-    [setFileData, setFileDataInitialValues]
+    [setFileData, setFileDataInitialValues, schemasT]
   );
   const handleOpenDialog = () => setIsFormDialogOpen(true);
   const handleCloseDialog = () => setIsFormDialogOpen(false);
@@ -61,20 +65,20 @@ export default function DADFileUploaded({
           <p className="text-sm text-center text-gray-600">
             ({getFileSizeInMB(file)} MB)
           </p>
-          <p className="mt-2 font-light">El archivo se subio correctamente</p>
+          <p className="mt-2 font-light">{t("main.fileUploaded")}</p>
         </div>
       </div>
       <Button
         color={ButtonColor.success}
         icon={<AiFillEdit className="text-2xl" />}
-        label="Llenar plantilla"
+        label={buttonsT("fillTemplate")}
         onClick={handleOpenDialog}
         className="w-full"
       />
       <Button
         color={ButtonColor.primary}
         icon={<AiOutlineSwap className="text-2xl" />}
-        label="Reemplazar archivo"
+        label={buttonsT("replaceFile")}
         onClick={onDelete}
         className="w-full"
       />

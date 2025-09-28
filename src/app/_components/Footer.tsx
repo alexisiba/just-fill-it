@@ -1,12 +1,14 @@
+import { useTranslations } from "next-intl";
 import Link from "next/link";
 import { AiFillGithub, AiFillLinkedin } from "react-icons/ai";
 
 export default function Footer() {
+  const t = useTranslations("footer");
   return (
     <div className="flex justify-center bg-white text-black border-t border-gray-400">
       <div className="container flex flex-col md:flex-row items-center justify-between gap-4 p-8">
         <div className="flex flex-col md:flex-row items-center gap-2">
-          <span>Sigueme en:</span>
+          <span>{t("followMe")}</span>
           <div className="flex flex-row itemx-center gap-2">
             <AiFillLinkedin className="text-2xl" />
             <AiFillGithub className="text-2xl" />
@@ -17,7 +19,7 @@ export default function Footer() {
         </div>
         <div>
           <Link className="underline" href="/privacy-policy">
-            Política de privacidad
+            {t("privacyPolicy")}
           </Link>
         </div>
       </div>

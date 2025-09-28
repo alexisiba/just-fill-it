@@ -6,10 +6,10 @@ import {
 } from "react-icons/ai";
 import { MAX_FILE_SIZE_MB } from "./constants";
 import { DragAndDropErrors } from "./types";
-import "../../../globals.css";
 import Button from "@/app/_components/Button";
 import { ButtonColor } from "@/app/types";
 import { getSupportedFileExtensionsWithDots } from "@/app/utils/helpers";
+import { useTranslations } from "use-intl";
 
 interface DADInputProps {
   errors?: DragAndDropErrors;
@@ -23,7 +23,8 @@ export default function DADInput({
   handleInputChange,
 }: DADInputProps) {
   const dragAndDropZoneRef = useRef<HTMLDivElement | null>(null);
-
+  const t = useTranslations("pages");
+  const buttonsT = useTranslations("buttons");
   const handleButtonClick = () => ref.current?.click();
 
   useEffect(() => {
@@ -50,10 +51,10 @@ export default function DADInput({
       className="flex flex-col items-center justify-center w-full h-full p-4"
     >
       <AiOutlineCloudUpload className="text-7xl text-gray-400" />
-      <p>Arrastra tu documento aquí</p>
+      <p>{t("dragAndDrop.dragYourFilesHere")}</p>
       <p>o</p>
       <Button
-        label="Buscar tu archivo"
+        label={buttonsT("searchFile")}
         icon={<AiFillFolderOpen className="text-2xl" />}
         color={ButtonColor.info}
         onClick={handleButtonClick}
@@ -66,7 +67,7 @@ export default function DADInput({
           </span>
         ) : (
           <span>
-            Tamaño máximo de archivo: <b>{MAX_FILE_SIZE_MB} MB</b>
+            {t("main.maxFileSize")} <b>{MAX_FILE_SIZE_MB} MB</b>
           </span>
         )}
         {errors?.fileTypeError ? (
@@ -76,7 +77,7 @@ export default function DADInput({
           </span>
         ) : (
           <span>
-            Tipoos de archivo soportados:
+            {t("main.supportedFileTypes")}
             <b> {getSupportedFileExtensionsWithDots().join(", ")}</b>
           </span>
         )}

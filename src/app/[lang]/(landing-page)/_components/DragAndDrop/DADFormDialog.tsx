@@ -13,6 +13,7 @@ import { FileData } from "@/app/_store/types/fileTypes";
 import { useFileActions } from "@/app/_store/selectors/fileSelector";
 import { SUPPORTED_FILE_EXTENSIONS } from "./constants";
 import { useEffect, useRef } from "react";
+import { useTranslations } from "next-intl";
 
 interface DADFormDialogProp {
   fileName: string;
@@ -35,6 +36,10 @@ export default function DADFormDialog({
 }: DADFormDialogProp) {
   const { setFileDataInitialValues } = useFileActions();
   const inputRef = useRef<HTMLInputElement | null>(null);
+  const t = useTranslations("dialogs");
+  const placeholdersT = useTranslations("placeholders");
+  const buttonsT = useTranslations("buttons");
+
   const handleFormSubmit = async (values: Record<string, string>) => {
     const { fileExtension } = fileData;
     setFileDataInitialValues(values);
@@ -67,19 +72,19 @@ export default function DADFormDialog({
   return (
     <Dialog
       title={fileName}
-      subtitle="Completa los siguientes campos para generar tu documento"
+      subtitle={t("form.subTitle")}
       open={isOpen}
       onClose={onClose}
       footer={
         <div className="flex flex-row gap-4 justify-end">
           <Button
             color={ButtonColor.primary}
-            label="Cancelar"
+            label={buttonsT("cancel")}
             onClick={onClose}
           />
           <Button
             color={ButtonColor.success}
-            label="Aplicar Cambios"
+            label={buttonsT("applyChanges")}
             onClick={() => formik.submitForm()}
           />
         </div>
@@ -97,7 +102,7 @@ export default function DADFormDialog({
                   : undefined
               }
               required
-              placeholder="Escribe Aquí..."
+              placeholder={placeholdersT("typeHere")}
               label={inputFormLabel}
               id={identifier}
               name={identifier}

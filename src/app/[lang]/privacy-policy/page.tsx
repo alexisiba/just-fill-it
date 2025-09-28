@@ -1,5 +1,5 @@
 import React from "react";
-import ExternalLink from "../_components/ExternalLink";
+import ExternalLink from "../../_components/ExternalLink";
 
 export default function page() {
   return (

@@ -6,6 +6,7 @@ import {
   Shadows_Into_Light,
 } from "next/font/google";
 import "./globals.css";
+import { NextIntlClientProvider } from "next-intl";
 
 const archivoBlack = Archivo_Black({
   weight: "400",
@@ -46,7 +47,7 @@ export default function RootLayout({
       <body
         className={`${rubikSans.variable} ${rubikMono.variable} ${shadowIntoLightSans.variable} ${archivoBlack.variable} antialiased`}
       >
-        {children}
+        <NextIntlClientProvider>{children}</NextIntlClientProvider>
       </body>
     </html>
   );

@@ -1,4 +1,4 @@
-import { SUPPORTED_FILE_EXTENSIONS } from "../(landing-page)/_components/DragAndDrop/constants";
+import { SUPPORTED_FILE_EXTENSIONS } from "../[lang]/(landing-page)/_components/DragAndDrop/constants";
 
 export const saveAs = (blob: Blob, fileName: string) => {
   const url = URL.createObjectURL(blob);

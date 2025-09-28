@@ -1,0 +1,43 @@
+{
+  "buttons": {
+    "applyChanges": "Aplicar cambios",
+    "cancel": "Cancelar",
+    "downloadDocument": "Descargar documento",
+    "editDocument": "Editar documento",
+    "fillTemplate": "Llenar plantilla",
+    "replaceFile": "Reemplazar archivo",
+    "searchFile": "Buscar tu archivo",
+    "startOver": "Comenzar de nuevo"
+  },
+  "dialogs": {
+    "form": {
+      "subTitle": "Completa los siguientes campos para generar tu documento"
+    }
+  },
+  "footer": {
+    "followMe": "Sigueme en:",
+    "privacyPolicy": "Politicas de privacidad"
+  },
+  "pages": {
+    "dragAndDrop": {
+      "dragYourFilesHere": "Arrastra tu documento aquí",
+      "yourFileHasBeenUpdated": "Tu archivo ha sido actualizado correctamente y esta listo para descargar",
+      "yourFileIsReady": "Tu documento esta listo!"
+    },
+    "main": {
+      "exampleVariable": "Nombre Completo",
+      "fileUploaded": "El archivo se subio correctamente",
+      "fillForms": "Llena tus formularios facil y rápido",
+      "maxFileSize": "Tamaño máximo de archivo:",
+      "setVariables": "Las variables en tu plantilla deben ir entre llaves dobles, por ejemplo:",
+      "supportedFileTypes": "Tipos de archivo soportados:",
+      "uploadYourTemplates": "Sube tu plantilla, llena los campos del formulario y descarga tu documento listo para usar. Es así de fácil."
+    }
+  },
+  "placeholders": {
+    "typeHere": "Escribe aquí..."
+  },
+  "schemas": {
+    "requiredField": "es un campo requerido"
+  }
+}

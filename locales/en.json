@@ -1,0 +1,43 @@
+{
+  "buttons": {
+    "applyChanges": "Apply changes",
+    "cancel": "Cancel",
+    "downloadDocument": "Download document",
+    "editDocument": "Edit document",
+    "fillTemplate": "Fill Template",
+    "replaceFile": "Replace File",
+    "searchFile": "Search file",
+    "startOver": "Start over"
+  },
+  "dialogs": {
+    "form": {
+      "subTitle": "Fill in the following fields to generate your document"
+    }
+  },
+  "footer": {
+    "followMe": "Follow me:",
+    "privacyPolicy": "Privacy policy"
+  },
+  "pages": {
+    "dragAndDrop": {
+      "dragYourFilesHere": "Drag your document here",
+      "yourFileHasBeenUpdated": "Your file has been successfully updated and is ready to download",
+      "yourFileIsReady": "Your file is ready!"
+    },
+    "main": {
+      "exampleVariable": "Full Name",
+      "fileUploaded": "The file was uploaded successfully",
+      "fillForms": "Fill out your forms easily and quickly",
+      "maxFileSize": "Maximum file size:",
+      "setVariables": "Variables in your template should be placed inside double curly braces, for example:",
+      "supportedFileTypes": "Supported file types:",
+      "uploadYourTemplates": "Upload your template, fill in the form fields, and download your ready-to-use document. It's that easy."
+    }
+  },
+  "placeholders": {
+    "typeHere": "Type here..."
+  },
+  "schemas": {
+    "requiredField": "is required"
+  }
+}

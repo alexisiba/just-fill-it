@@ -20,6 +20,7 @@ import {
 import { SUPPORTED_FILE_EXTENSIONS } from "./constants";
 import DADFormDialog from "./DADFormDialog";
 import { buildFormikValidationSchema } from "./helpers";
+import { useTranslations } from "next-intl";
 
 export default function DADFileDownload() {
   const [isLoading, setIsLoading] = useState(false);
@@ -27,6 +28,9 @@ export default function DADFileDownload() {
   const fileToDownload = useFileToDownload();
   const { resetAll, setFileToDownload } = useFileActions();
   const [isFormDialogOpen, setIsFormDialogOpen] = useState(false);
+  const t = useTranslations("pages");
+  const buttonsT = useTranslations("buttons");
+  const schemasT = useTranslations("schemas");
 
   const handleDownload = () =>
     saveAs(fileToDownload as Blob, fileData?.fileName as string);
@@ -89,10 +93,10 @@ export default function DADFileDownload() {
   return (
     <div className="flex flex-col items-center justify-center gap-5">
       <h3 className="text-3xl max-w-100 text-center font-bold">
-        Tu documento esta listo!
+        {t("dragAndDrop.yourFileIsReady")}
       </h3>
       <p className="max-w-100 text-center">
-        Tu archivo ha sido actualizado correctamente y esta listo para descargar
+        {t("dragAndDrop.yourFileHasBeenUpdated")}
       </p>
       <div className="flex flex-col gap-2">
         <div className="flex flex-row gap-2">
@@ -101,7 +105,7 @@ export default function DADFileDownload() {
             color={ButtonColor.info}
             icon={<AiOutlineDownload className="text-2xl" />}
             className="w-full"
-            label="Descargar documento"
+            label={buttonsT("downloadDocument")}
             onClick={handleDownload}
           />
           <Button
@@ -121,13 +125,13 @@ export default function DADFileDownload() {
           <Button
             disabled={isLoading}
             icon={<AiOutlineEdit className="text-2xl" />}
-            label="Editar documento"
+            label={buttonsT("editDocument")}
             onClick={handleOpenDialog}
           />
           <Button
             disabled={isLoading}
             icon={<AiOutlineHome className="text-2xl" />}
-            label="Comenzar de nuevo"
+            label={buttonsT("startOver")}
             onClick={resetAll}
           />
         </div>
@@ -139,7 +143,8 @@ export default function DADFileDownload() {
           initialValues={fileData?.initialValues as Record<string, string>}
           isOpen={isFormDialogOpen}
           validationSchema={buildFormikValidationSchema(
-            Object.keys(fileData?.initialValues as Record<string, string>)
+            Object.keys(fileData?.initialValues as Record<string, string>),
+            schemasT
           )}
           onClose={handleCloseDialog}
           onSubmit={handleFormSubmit}

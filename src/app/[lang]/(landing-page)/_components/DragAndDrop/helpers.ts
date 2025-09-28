@@ -131,13 +131,16 @@ export const getFileData = async (file: File): Promise<FileData> => {
 export const getIdentifierLabel = (identifier: string) =>
   capitalize(identifier.replace(REGEX_SEPARATORS, " "));
 
-export const buildFormikValidationSchema = (fields: string[]) => {
+export const buildFormikValidationSchema = (
+  fields: string[],
+  t: (key: string) => string
+) => {
   const schema: Record<string, AnySchema> = {};
 
   fields.forEach(
     (field) =>
       (schema[field] = string().required(
-        `${getIdentifierLabel(field)} es un campo requerido`
+        `${getIdentifierLabel(field)} ${t("requiredField")}`
       ))
   );
 
