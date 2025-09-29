@@ -6,6 +6,7 @@ import { useFormik } from "formik";
 import { ObjectSchema } from "yup";
 import {
   createNewDocxFile,
+  createNewOdtFile,
   createNewTxtFile,
   getIdentifierLabel,
 } from "./helpers";
@@ -43,17 +44,24 @@ export default function DADFormDialog({
   const handleFormSubmit = async (values: Record<string, string>) => {
     const { fileExtension } = fileData;
     setFileDataInitialValues(values);
-    if (fileExtension === SUPPORTED_FILE_EXTENSIONS.TXT) {
-      const newFile = createNewTxtFile(fileData, values);
-      onSubmit(newFile);
-      return;
+    switch (fileExtension) {
+      case SUPPORTED_FILE_EXTENSIONS.TXT:
+        const newTextFile = createNewTxtFile(fileData, values);
+        onSubmit(newTextFile);
+        break;
+      case SUPPORTED_FILE_EXTENSIONS.DOCX:
+        const newDocxFile = await createNewDocxFile(fileData, values);
+        onSubmit(newDocxFile);
+        break;
+      case SUPPORTED_FILE_EXTENSIONS.ODT:
+        const newOdtFile = await createNewOdtFile(fileData, values);
+        onSubmit(newOdtFile);
+        break;
+
+      default:
+        onSubmit(new Blob());
+        break;
     }
-    if ([SUPPORTED_FILE_EXTENSIONS.DOCX].includes(fileExtension)) {
-      const newFile = await createNewDocxFile(fileData, values);
-      onSubmit(newFile);
-      return;
-    }
-    onSubmit(new Blob());
   };
 
   const formik = useFormik({

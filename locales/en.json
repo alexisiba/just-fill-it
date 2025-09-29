@@ -1,4 +1,9 @@
 {
+  "alerts": {
+    "error": {
+      "downloadPdfError": "This option is not enabled for this type of file at the moment."
+    }
+  },
   "buttons": {
     "applyChanges": "Apply changes",
     "cancel": "Cancel",

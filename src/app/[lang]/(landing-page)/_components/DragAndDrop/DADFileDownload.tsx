@@ -31,6 +31,7 @@ export default function DADFileDownload() {
   const t = useTranslations("pages");
   const buttonsT = useTranslations("buttons");
   const schemasT = useTranslations("schemas");
+  const alertsT = useTranslations("alerts");
 
   const handleDownload = () =>
     saveAs(fileToDownload as Blob, fileData?.fileName as string);
@@ -41,7 +42,7 @@ export default function DADFileDownload() {
     handleCloseDialog();
   };
 
-  const downloadDocxToPdfFile = async () => {
+  const downloadPdfFile = async () => {
     const formData = new FormData();
     formData.append("file", fileToDownload as Blob, fileData?.fileName);
     const res = await fetch("/api/convert", {
@@ -53,7 +54,7 @@ export default function DADFileDownload() {
       const blob = await res.blob();
       saveAs(blob, fileData?.fileName as string);
     } else {
-      alert("Esta opcion no esta habilitada para docx por ahora");
+      alert(alertsT("error.downloadPdfError"));
     }
   };
 
@@ -79,12 +80,17 @@ export default function DADFileDownload() {
   const handlePdfFileDownload = async () => {
     setIsLoading(true);
 
-    if (fileData?.fileExtension === SUPPORTED_FILE_EXTENSIONS.TXT) {
-      downloadTxtToPdfFile();
-    }
+    switch (fileData?.fileExtension) {
+      case SUPPORTED_FILE_EXTENSIONS.TXT:
+        downloadTxtToPdfFile();
+        break;
+      case SUPPORTED_FILE_EXTENSIONS.DOCX:
+      case SUPPORTED_FILE_EXTENSIONS.ODT:
+        await downloadPdfFile();
+        break;
 
-    if (fileData?.fileExtension === SUPPORTED_FILE_EXTENSIONS.DOCX) {
-      await downloadDocxToPdfFile();
+      default:
+        break; // Do nothing
     }
 
     setIsLoading(false);

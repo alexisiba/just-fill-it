@@ -109,23 +109,47 @@ const handleDocxFileData = async (file: File): Promise<FileData> => {
   };
 };
 
-export const getFileData = async (file: File): Promise<FileData> => {
-  const fileExt = file?.name?.split(".")?.pop()?.toLowerCase() || "";
-  if (fileExt === SUPPORTED_FILE_EXTENSIONS.TXT) {
-    return handleTxtFileData(file);
-  }
-  if (fileExt === SUPPORTED_FILE_EXTENSIONS.DOCX) {
-    return handleDocxFileData(file);
-  }
+const handleOdtFileData = async (file: File): Promise<FileData> => {
+  const fileContent = await readFileAsBufferArryAsync(file);
+  const zip = new PizZip(fileContent as LoadData);
+  const variables = [
+    ...zip.files["content.xml"]
+      .asText()
+      .matchAll(REGEX_TEMPLATE_VARIABLE)
+      .map((variable) => [
+        variable[0],
+        variable[1].replace(REGEX_SEPARATORS, "_"),
+      ]),
+  ];
 
   return {
     file,
-    fileExtension: "",
-    fileName: "",
-    initialValues: {},
-    templateVariables: {},
-    textContent: "",
+    fileExtension: file?.name?.split(".")?.pop()?.toLowerCase() || "",
+    fileName: file.name,
+    initialValues: getInitialValuesFromVariables(variables),
+    templateVariables: getTemplateVariables(variables),
   };
+};
+
+export const getFileData = async (file: File): Promise<FileData> => {
+  const fileExt = file?.name?.split(".")?.pop()?.toLowerCase() || "";
+  switch (fileExt) {
+    case SUPPORTED_FILE_EXTENSIONS.TXT:
+      return handleTxtFileData(file);
+    case SUPPORTED_FILE_EXTENSIONS.DOCX:
+      return handleDocxFileData(file);
+    case SUPPORTED_FILE_EXTENSIONS.ODT:
+      return handleOdtFileData(file);
+
+    default:
+      return {
+        file,
+        fileExtension: "",
+        fileName: "",
+        initialValues: {},
+        templateVariables: {},
+      };
+  }
 };
 
 export const getIdentifierLabel = (identifier: string) =>
@@ -151,7 +175,8 @@ export const createNewTxtFile = (
   fileData: FileData,
   newValues: Record<string, string>
 ) => {
-  let newTextContent = fileData.textContent;
+  let newTextContent = fileData.textContent as string;
+
   for (const key in fileData.templateVariables) {
     newTextContent = newTextContent.replaceAll(
       fileData.templateVariables[key],
@@ -202,4 +227,30 @@ export const createNewDocxFile = async (
   });
 
   return blob;
+};
+
+export const createNewOdtFile = async (
+  fileData: FileData,
+  newValues: Record<string, string>
+) => {
+  const fileContent = await readFileAsBufferArryAsync(fileData.file);
+  const zip = new PizZip(fileContent as LoadData);
+  const contentXml = zip.file("content.xml")?.asText();
+  let newContentXml = contentXml;
+
+  for (const key in fileData.templateVariables) {
+    newContentXml = newContentXml?.replaceAll(
+      fileData.templateVariables[key],
+      newValues[key]
+    );
+  }
+
+  zip.file("content.xml", newContentXml ?? "");
+
+  const newOdt = zip.generate({
+    type: "blob",
+    mimeType: "application/vnd.oasis.opendocument.text",
+  });
+
+  return newOdt;
 };

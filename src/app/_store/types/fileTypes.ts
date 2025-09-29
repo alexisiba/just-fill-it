@@ -4,7 +4,7 @@ export interface FileData {
   fileName: string;
   initialValues: Record<string, string>;
   templateVariables: Record<string, string>;
-  textContent: string;
+  textContent?: string;
 }
 
 export interface FileState {

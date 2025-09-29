@@ -25,23 +25,16 @@ export async function POST(req: NextRequest) {
     // Convertir path a URI absoluta para LibreOffice
     const fileUri = pathToFileURL(path.resolve(tempFilePath)).href;
 
-    // Configurar perfil aislado para LibreOffice
-    const HOME = path.join(process.cwd(), ".libreoffice-profile");
-    if (!fs.existsSync(HOME)) fs.mkdirSync(HOME, { recursive: true });
-
     // Ejecutar LibreOffice con spawn
     await new Promise<void>((resolve, reject) => {
-      const child = spawn(
-        "soffice",
-        ["--headless", "--convert-to", "pdf", "--outdir", tempDir, fileUri],
-        {
-          env: {
-            ...process.env,
-            HOME,
-            LANG: "en_US.UTF-8",
-          },
-        }
-      );
+      const child = spawn("soffice", [
+        "--headless",
+        "--convert-to",
+        "pdf",
+        "--outdir",
+        tempDir,
+        fileUri,
+      ]);
 
       child.stdout.on("data", (d) =>
         console.log("LibreOffice stdout:", d.toString())
@@ -57,7 +50,7 @@ export async function POST(req: NextRequest) {
     });
 
     // Leer PDF generado
-    const pdfPath = tempFilePath.replace(/\.docx$/i, ".pdf");
+    const pdfPath = tempFilePath.replace(/\.(docx|odt)$/i, ".pdf");
     if (!fs.existsSync(pdfPath)) {
       throw new Error("PDF not generated");
     }
