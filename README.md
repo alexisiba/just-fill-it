@@ -90,6 +90,31 @@ The application will be available at `http://localhost:3000`.
 
 ---
 
+📊 Google Analytics (opcional)
+
+Este proyecto soporta integración con Google Analytics 4 usando @next/third-parties
+.
+
+👉 Importante:
+
+La integración solo se activa si defines una variable de entorno.
+
+Si clonas este repositorio, no se enviarán datos de uso por defecto.
+
+Configuración
+
+Crea un archivo .env.local en la raíz del proyecto.
+
+Agrega tu ID de medición de Google Analytics (formato G-XXXXXXXXXX):
+
+```bash
+GA_ID=G-XXXXXXXXXX
+```
+
+Al ejecutar o desplegar la aplicación, si esta variable está definida, Google Analytics se habilitará automáticamente.
+
+---
+
 ## 📜 License
 
 This project is licensed under the [MIT License](./LICENSE).

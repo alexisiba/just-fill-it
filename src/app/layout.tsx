@@ -7,6 +7,7 @@ import {
 } from "next/font/google";
 import "./globals.css";
 import { NextIntlClientProvider } from "next-intl";
+import { GoogleAnalytics } from "@next/third-parties/google";
 
 const archivoBlack = Archivo_Black({
   weight: "400",
@@ -48,6 +49,9 @@ export default function RootLayout({
         className={`${rubikSans.variable} ${rubikMono.variable} ${shadowIntoLightSans.variable} ${archivoBlack.variable} antialiased`}
       >
         <NextIntlClientProvider>{children}</NextIntlClientProvider>
+        {process.env.GA_ID ? (
+          <GoogleAnalytics gaId={process.env.GA_ID} />
+        ) : null}
       </body>
     </html>
   );
