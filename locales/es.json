@@ -32,7 +32,7 @@
     "main": {
       "exampleVariable": "Nombre Completo",
       "fileUploaded": "El archivo se subio correctamente",
-      "fillForms": "Llena tus formularios facil y rápido",
+      "fillForms": "Llena tus plantillas facil y rápido",
       "maxFileSize": "Tamaño máximo de archivo:",
       "setVariables": "Las variables en tu plantilla deben ir entre llaves dobles, por ejemplo:",
       "supportedFileTypes": "Tipos de archivo soportados:",

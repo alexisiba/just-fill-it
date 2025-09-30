@@ -32,7 +32,7 @@
     "main": {
       "exampleVariable": "Full Name",
       "fileUploaded": "The file was uploaded successfully",
-      "fillForms": "Fill out your forms easily and quickly",
+      "fillForms": "Fill out your templates easily and quickly",
       "maxFileSize": "Maximum file size:",
       "setVariables": "Variables in your template should be placed inside double curly braces, for example:",
       "supportedFileTypes": "Supported file types:",
